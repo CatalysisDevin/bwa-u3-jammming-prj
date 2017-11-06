@@ -1,0 +1,42 @@
+import React from 'react';
+import './SearchBar.css';
+
+class SearchBar extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {term: ''};
+		this.search = this.search.bind(this);
+		this.keySearch = this.keySearch.bind(this);
+		this.handleTermChange = this.handleTermChange.bind(this);
+	}
+
+	search() {
+		this.props.onSearch(this.state.term);
+	}
+	
+	keySearch(event) {
+	  let key = event.keyCode || event.which; // '.which' added for browser compatibility where '.keyCode' is not supported
+	  if (key === 13) { // Checks if depressed key was 'Enter' (its keyCode value is 13)
+	    this.props.onSearch(this.state.term); // Runs same code block as the above .search() method
+	  }
+	}
+
+	handleTermChange(event) {
+		this.setState({term: event.target.value});
+	}
+
+	render() {
+		return (
+			<div className="SearchBar">
+				<input 
+					placeholder="Enter a Song, Album, or Artist" 
+					onChange={this.handleTermChange}
+					onKeyUp={this.keySearch} // Event listener that triggers after a key has been depressed and comes back up
+				/>
+				<a onClick={this.search}>SEARCH</a>
+			</div>
+		);
+	}
+}
+
+export default SearchBar;
